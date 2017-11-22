@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js",
+    "dev": "nodemon index.js",
     "format": "prettier es5 --no-semi --single-quote --write src/**/*.js"
   },
   "keywords": [],
@@ -15,6 +15,7 @@
     "twit": "2.2.9"
   },
   "devDependencies": {
+    "nodemon": "1.12.1",
     "prettier": "1.8.2"
   }
 }
