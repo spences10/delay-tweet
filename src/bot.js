@@ -1,4 +1,6 @@
 const Twit = require('twit')
+const moment = require('moment')
+
 const config = require('./config')
 
 const bot = new Twit(config)
@@ -10,19 +12,29 @@ const trackStream = bot.stream('statuses/filter', {
 
 trackStream.on('tweet', log)
 
-let thing = []
+let tweets = []
 
 // add tweet to object
-function log ( e ) {
-  // thing.push(e.text)
-  
+function log(e) {
   console.log('====================')
-  thing.push({
+  tweets.push({
     tweet: e.text,
-    timeIn: Date(),
-    timeOut: `Some other Date`
+    timeIn: newTimeIn(),
+    timeOut: newTimeOut()
   })
-  console.log(thing)
+  console.log(tweets)
   console.log('====================')
+}
 
+// function to rerurn random 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const newTimeIn = (date) => {
+  return moment(date).toDate()
+}
+
+const newTimeOut = (date) => {
+  return moment(date).add(30, 'm').toDate()  
 }
