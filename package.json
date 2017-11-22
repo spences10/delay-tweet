@@ -4,9 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js",
+    "format": "prettier es5 --no-semi --single-quote --write src/**/*.js"
   },
   "keywords": [],
   "author": "Scott Spence <spences10apps@gmail.com> (https://blog.scottspence.me/)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "4.0.0",
+    "twit": "2.2.9"
+  },
+  "devDependencies": {
+    "prettier": "1.8.2"
+  }
 }
