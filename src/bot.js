@@ -20,8 +20,8 @@ function log(e) {
   console.log('====================')
   tweets.push({
     tweet: e.text,
-    timeIn: newTimeIn(),
-    timeOut: newTimeOut()
+    timeIn: new Date(newTimeIn()),
+    timeOut: new Date(newTimeOut())
   })
   // console.log(tweets)
   console.log('====================')
@@ -44,16 +44,20 @@ const newTimeOut = date => {
     .toDate()
 }
 
-setInterval(function(tweets) {
-  Object.keys(tweets).forEach(key => {
-    console.log(key, tweets[key])
-  })
-}, 3000)
-
 // loop through tweets object
 // popp off tweets after time out is matched
-// function tweetList(tweets) {
-//   Object.keys(tweets).forEach(key => {
-//     console.log(key, tweets[key])
-//   })
-// }
+setInterval(() => {
+  const sortByValue = tweets.sort((first, second) => {
+    return (
+      new Date(first.timeOut).getTime() - new Date(second.timeOut).getTime()
+    )
+  })
+  console.log(sortByValue)
+
+  // Object.keys(tweets)
+  //   .sort()
+  //   .forEach(key => {
+  //     console.log(key)
+  //     console.log(tweets[key])
+  //   })
+}, 3000)
