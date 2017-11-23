@@ -7,6 +7,10 @@
     "dev": "nodemon index.js",
     "format": "prettier es5 --no-semi --single-quote --write src/**/*.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spences10/delay-tweet.git"
+  },
   "keywords": [],
   "author": "Scott Spence <spences10apps@gmail.com> (https://blog.scottspence.me/)",
   "license": "MIT",
@@ -18,5 +22,9 @@
   "devDependencies": {
     "nodemon": "1.12.1",
     "prettier": "1.8.2"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/spences10/delay-tweet/issues"
+  },
+  "homepage": "https://github.com/spences10/delay-tweet#readme"
 }
