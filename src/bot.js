@@ -38,7 +38,7 @@ const newTimeIn = date => {
 // set timeOut 🙃
 const newTimeOut = date => {
   return moment(date)
-    .add(getRandomInt(1, 30), 'm')
+    .add(getRandomInt(1, 2), 'm')
     .toDate()
 }
 
@@ -46,12 +46,12 @@ const newTimeOut = date => {
 // popp off tweets after time out is matched
 setInterval(() => {
   // loop through dem keys
-  Object.keys(sortByTimeOut)
-  .sort()
-  .forEach(key => {
-      // if timeOut less than current time then pop it off!
-      console.log(tweets[key].timeOut)
-    })
+  console.log(sortByTimeOut)
+  Object.keys(sortByTimeOut).forEach(key => {
+    // if timeOut less than current time then pop it off!
+    const keyTime = tweets[key].timeOut
+    console.log(keyTime, keyTime.getTime() <= new Date().getTime())
+  })
   // take tweets and reassign it to the new array
 
   // console.log(sortByTimeOut)
@@ -61,8 +61,9 @@ setInterval(() => {
   //     console.log(key)
   //     console.log(tweets[key])
   //   })
-}, 3000)
+}, 20000)
 
 const sortByTimeOut = tweets.sort((first, second) => {
   return new Date(first.timeOut).getTime() - new Date(second.timeOut).getTime()
+  console.log(`here ${sortByTimeOut}`)
 })
