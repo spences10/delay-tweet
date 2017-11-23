@@ -17,14 +17,12 @@ let tweets = []
 // add tweet to object
 // e is the tweet event
 function log(e) {
-  console.log('====================')
   tweets.push({
     tweet: e.text,
     timeIn: new Date(newTimeIn()),
     timeOut: new Date(newTimeOut())
   })
-  // console.log(tweets)
-  console.log('====================')
+  console.log(`popped onto array`)
 }
 
 // function to rerurn random
@@ -47,13 +45,16 @@ const newTimeOut = date => {
 // loop through tweets object
 // popp off tweets after time out is matched
 setInterval(() => {
-  const sortByValue = tweets.sort((first, second) => {
-    return (
-      new Date(first.timeOut).getTime() - new Date(second.timeOut).getTime()
-    )
-  })
-  console.log(sortByValue)
+  // loop through dem keys
+  Object.keys(sortByTimeOut)
+  .sort()
+  .forEach(key => {
+      // if timeOut less than current time then pop it off!
+      console.log(tweets[key].timeOut)
+    })
+  // take tweets and reassign it to the new array
 
+  // console.log(sortByTimeOut)
   // Object.keys(tweets)
   //   .sort()
   //   .forEach(key => {
@@ -61,3 +62,7 @@ setInterval(() => {
   //     console.log(tweets[key])
   //   })
 }, 3000)
+
+const sortByTimeOut = tweets.sort((first, second) => {
+  return new Date(first.timeOut).getTime() - new Date(second.timeOut).getTime()
+})
