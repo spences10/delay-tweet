@@ -49,8 +49,13 @@ setInterval(() => {
   console.log(sortByTimeOut)
   Object.keys(sortByTimeOut).forEach(key => {
     // if timeOut less than current time then pop it off!
-    const keyTime = tweets[key].timeOut
-    console.log(keyTime, keyTime.getTime() <= new Date().getTime())
+    const keyTimeOut = tweets[key].timeOut
+    const keyTimeIn = tweets[key].timeIn
+    console.log('====================')
+    console.log(`KEY TIME OUT==== ${keyTimeOut}`)
+    console.log(`KEY TIME IN==== ${keyTimeIn}`)
+    console.log('====================')
+    console.log(keyTimeOut, keyTimeOut.getTime() <= new Date().getTime())
   })
   // take tweets and reassign it to the new array
 
@@ -65,5 +70,4 @@ setInterval(() => {
 
 const sortByTimeOut = tweets.sort((first, second) => {
   return new Date(first.timeOut).getTime() - new Date(second.timeOut).getTime()
-  console.log(`here ${sortByTimeOut}`)
 })
