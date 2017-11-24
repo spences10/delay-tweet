@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "dev": "nodemon index.js",
     "format": "prettier es5 --no-semi --single-quote --write src/**/*.js"
   },
