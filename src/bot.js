@@ -71,7 +71,7 @@ setInterval(() => {
     if (itemTimeOut <= currentTime) {
       // item needs 'dispatching' so tweet it
       const itemEvent = item.event
-      console.log(itemEvent)
+      // console.log(itemEvent)
       retweet(itemEvent)
       // then remove it
       tweets.shift()
