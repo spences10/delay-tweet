@@ -7,7 +7,7 @@ const bot = new Twit(config)
 
 // use stream to track keywords
 const trackStream = bot.stream('statuses/filter', {
-  track: 'javascript'
+  track: 'sometesthashtag'
 })
 
 trackStream.on('tweet', log)
@@ -45,13 +45,15 @@ const newTimeOut = date => {
 // loop through tweets object
 // popp off tweets after time out is matched
 setInterval(() => {
+  tweets = tweets.slice()
+
   // loop through the thing
   console.log('====================')
-  console.log(sortByTimeOut)
+  console.log(tweets)
   console.log('====================')
 
-  sortByTimeOut.sort((a, b) => a.timeOut - b.timeOut)
-  sortByTimeOut.map(item => {
+  tweets.sort((a, b) => a.timeOut - b.timeOut)
+  tweets.map(item => {
     // console.log(time.timeOut)
     const itemTimeOut = new Date(item.timeOut).getTime()
     const currentTime = new Date().getTime()
@@ -61,36 +63,16 @@ setInterval(() => {
     console.log(`POP IT OFF?====== ${itemTimeOut <= currentTime}`)
     console.log('====================')
     if (itemTimeOut <= currentTime) {
-      // console.log(`Item to pop off!============${item.tweet}`)
+      // item needs 'dispatching' so tweet it
+      tweets.shift()
     }
   })
-
-  // Object.keys(sortByTimeOut)
-  //   .sort()
-  //   .forEach(key => {
-  //   // if timeOut less than current time then pop it off!
-  //   const keyTimeOut = tweets[key].timeOut
-  //   const keyTimeIn = tweets[key].timeIn
-  //   console.log('====================')
-  //   console.log(`KEY TIME OUT==== ${keyTimeOut}`)
-  //   console.log(`KEY TIME IN===== ${keyTimeIn}`)
-  //   console.log('====================')
-  //   console.log(keyTimeOut, keyTimeOut.getTime() <= new Date().getTime())
-  // })
-  // take tweets and reassign it to the new array
-
-  // console.log(sortByTimeOut)
-  // Object.keys(tweets)
-  //   .sort()
-  //   .forEach(key => {
-  //     console.log(key)
-  //     console.log(tweets[key])
-  //   })
+  return tweets
 }, 20000)
 
-const sortByTimeOut = tweets.sort((a, b) => {
-  return new Date(a.timeOut).getTime() - new Date(b.timeOut).getTime()
-})
+// const sortByTimeOut = tweets.sort((a, b) => {
+//   return new Date(a.timeOut).getTime() - new Date(b.timeOut).getTime()
+// })
 
 // for my own sanity checking of date times 🙃
 function timeConverter(UNIX_timestamp) {
