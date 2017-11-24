@@ -3,7 +3,7 @@ const config = require('../config')
 
 const bot = new Twit(config)
 
-const retweet = (event) => {
+const retweet = event => {
   // console.log(JSON.stringify(event.lang))
   // console.log(JSON.stringify(event))
   // event.source.screen_name
