@@ -19,8 +19,8 @@ let tweets = []
 function log(e) {
   tweets.push({
     tweet: e.text,
-    timeIn: new Date(newTimeIn()).toString(),
-    timeOut: new Date(newTimeOut().toString())
+    timeIn: new Date(newTimeIn()),
+    timeOut: new Date(newTimeOut())
   })
   console.log(`popped onto array`)
 }
@@ -55,8 +55,13 @@ setInterval(() => {
     // console.log(time.timeOut)
     const itemTimeOut = new Date(item.timeOut)
     const currentTime = new Date().getTime()
+    console.log('====================')
+    console.log(`ITEM TIME OUT==== ${itemTimeOut}`)
+    console.log(`ITEM TIME NOW==== ${currentTime}`)
+    console.log(itemTimeOut.getTime() <= currentTime)
+    console.log('====================')
     if (itemTimeOut.getTime() <= currentTime) {
-      console.log(`Item to pop off!============${item.tweet}`)
+      // console.log(`Item to pop off!============${item.tweet}`)
     }
   })
 
