@@ -53,14 +53,14 @@ setInterval(() => {
   sortByTimeOut.sort((a, b) => a.timeOut - b.timeOut)
   sortByTimeOut.map(item => {
     // console.log(time.timeOut)
-    const itemTimeOut = new Date(item.timeOut)
+    const itemTimeOut = new Date(item.timeOut).getTime()
     const currentTime = new Date().getTime()
     console.log('====================')
-    console.log(`ITEM TIME OUT==== ${itemTimeOut}`)
-    console.log(`ITEM TIME NOW==== ${currentTime}`)
-    console.log(itemTimeOut.getTime() <= currentTime)
+    console.log(`ITEM TIME OUT==== ${timeConverter(itemTimeOut)}`)
+    console.log(`ITEM TIME NOW==== ${timeConverter(currentTime)}`)
+    console.log(`POP IT OFF?====== ${itemTimeOut <= currentTime}`)
     console.log('====================')
-    if (itemTimeOut.getTime() <= currentTime) {
+    if (itemTimeOut <= currentTime) {
       // console.log(`Item to pop off!============${item.tweet}`)
     }
   })
@@ -91,3 +91,8 @@ setInterval(() => {
 const sortByTimeOut = tweets.sort((a, b) => {
   return new Date(a.timeOut).getTime() - new Date(b.timeOut).getTime()
 })
+
+// for my own sanity checking of date times 🙃
+function timeConverter(UNIX_timestamp) {
+  return new Date(UNIX_timestamp).toISOString()
+}
