@@ -2,27 +2,35 @@ const Twit = require('twit')
 const moment = require('moment')
 
 const config = require('./config')
+const retweet = require('./api/retweet')
 
 const bot = new Twit(config)
 
 // use stream to track keywords
 const trackStream = bot.stream('statuses/filter', {
-  track: 'sometesthashtag'
+  track: 'javascript'
 })
 
-trackStream.on('tweet', log)
+trackStream.on('tweet', addTweets)
 
 let tweets = []
 
 // add tweet to object
 // e is the tweet event
-function log(e) {
+function addTweets(e) {
+  // console.log('====================')
+  // console.log(e)
+  // console.log('====================')
   tweets.push({
     tweet: e.text,
+    tweetId: e.id_str,
+    user: e.user.screen_name,
     timeIn: new Date(newTimeIn()),
-    timeOut: new Date(newTimeOut())
+    timeOut: new Date(newTimeOut()),
+    event: e // EVERYTHING!!! 
   })
-  console.log(`popped onto array`)
+  console.log(`Item added to array, current length=${tweets.length}`)
+  // console.log(tweets)
 }
 
 // function to rerurn random
@@ -44,35 +52,34 @@ const newTimeOut = date => {
 
 // loop through tweets object
 // popp off tweets after time out is matched
+
 setInterval(() => {
+  // new array from tweets, right?
   tweets = tweets.slice()
-
-  // loop through the thing
-  console.log('====================')
-  console.log(tweets)
-  console.log('====================')
-
+  // sort it 
   tweets.sort((a, b) => a.timeOut - b.timeOut)
+  // loop through the thing
   tweets.map(item => {
     // console.log(time.timeOut)
     const itemTimeOut = new Date(item.timeOut).getTime()
     const currentTime = new Date().getTime()
-    console.log('====================')
-    console.log(`ITEM TIME OUT==== ${timeConverter(itemTimeOut)}`)
-    console.log(`ITEM TIME NOW==== ${timeConverter(currentTime)}`)
-    console.log(`POP IT OFF?====== ${itemTimeOut <= currentTime}`)
-    console.log('====================')
+    // console.log('====================')
+    // console.log(`ITEM TIME OUT==== ${timeConverter(itemTimeOut)}`)
+    // console.log(`ITEM TIME NOW==== ${timeConverter(currentTime)}`)
+    // console.log(`POP IT OFF?====== ${itemTimeOut <= currentTime}`)
+    // console.log('====================')
     if (itemTimeOut <= currentTime) {
       // item needs 'dispatching' so tweet it
+      const itemEvent = item.event
+      console.log(itemEvent)
+      retweet(itemEvent)
+      // then remove it
       tweets.shift()
+      console.log(`Item removed from array, current length ${tweets.length}`)
     }
   })
   return tweets
-}, 20000)
-
-// const sortByTimeOut = tweets.sort((a, b) => {
-//   return new Date(a.timeOut).getTime() - new Date(b.timeOut).getTime()
-// })
+}, 10000)
 
 // for my own sanity checking of date times 🙃
 function timeConverter(UNIX_timestamp) {
