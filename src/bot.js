@@ -19,8 +19,8 @@ let tweets = []
 function log(e) {
   tweets.push({
     tweet: e.text,
-    timeIn: new Date(newTimeIn()),
-    timeOut: new Date(newTimeOut())
+    timeIn: new Date(newTimeIn()).toString(),
+    timeOut: new Date(newTimeOut().toString())
   })
   console.log(`popped onto array`)
 }
@@ -45,18 +45,33 @@ const newTimeOut = date => {
 // loop through tweets object
 // popp off tweets after time out is matched
 setInterval(() => {
-  // loop through dem keys
+  // loop through the thing
+  console.log('====================')
   console.log(sortByTimeOut)
-  Object.keys(sortByTimeOut).forEach(key => {
-    // if timeOut less than current time then pop it off!
-    const keyTimeOut = tweets[key].timeOut
-    const keyTimeIn = tweets[key].timeIn
-    console.log('====================')
-    console.log(`KEY TIME OUT==== ${keyTimeOut}`)
-    console.log(`KEY TIME IN==== ${keyTimeIn}`)
-    console.log('====================')
-    console.log(keyTimeOut, keyTimeOut.getTime() <= new Date().getTime())
+  console.log('====================')
+
+  sortByTimeOut.sort((a, b) => a.timeOut - b.timeOut)
+  sortByTimeOut.map(item => {
+    // console.log(time.timeOut)
+    const itemTimeOut = new Date(item.timeOut)
+    const currentTime = new Date().getTime()
+    if (itemTimeOut.getTime() <= currentTime) {
+      console.log(`Item to pop off!============${item.tweet}`)
+    }
   })
+
+  // Object.keys(sortByTimeOut)
+  //   .sort()
+  //   .forEach(key => {
+  //   // if timeOut less than current time then pop it off!
+  //   const keyTimeOut = tweets[key].timeOut
+  //   const keyTimeIn = tweets[key].timeIn
+  //   console.log('====================')
+  //   console.log(`KEY TIME OUT==== ${keyTimeOut}`)
+  //   console.log(`KEY TIME IN===== ${keyTimeIn}`)
+  //   console.log('====================')
+  //   console.log(keyTimeOut, keyTimeOut.getTime() <= new Date().getTime())
+  // })
   // take tweets and reassign it to the new array
 
   // console.log(sortByTimeOut)
@@ -68,6 +83,6 @@ setInterval(() => {
   //   })
 }, 20000)
 
-const sortByTimeOut = tweets.sort((first, second) => {
-  return new Date(first.timeOut).getTime() - new Date(second.timeOut).getTime()
+const sortByTimeOut = tweets.sort((a, b) => {
+  return new Date(a.timeOut).getTime() - new Date(b.timeOut).getTime()
 })
