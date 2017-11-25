@@ -31,7 +31,7 @@ let tweetCounter = tweetLimit
 setInterval(() => {
   tweetCounter = tweetLimit
   console.log('====================')
-  console.log(`Set counter to ${tweetCounter}`)
+  console.log(`reset counter to ${tweetCounter}`)
   console.log('====================')
 }, 1000 * 60 * 60 * 24)
 
@@ -59,6 +59,7 @@ function addTweets(e) {
   })
   console.log(`Item added to queue, current length=${tweets.length}`)
   // console.log(tweets)
+  // count down to 0 from the max tweet number = 2400
   tweetCounter--
 }
 
