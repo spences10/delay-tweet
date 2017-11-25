@@ -7,11 +7,15 @@ const moment = require('moment')
 const config = require('./config')
 const retweet = require('./api/retweet')
 
-const bot = new Twit(config)
+const bot = new Twit(config.twitterKeys)
+
+// bring in parameters for search
+const param = config.twitterConfig
+const trackWords = param.queryString.split(',')
 
 // use stream to track keywords
 const trackStream = bot.stream('statuses/filter', {
-  track: 'javascript'
+  track: trackWords
 })
 
 trackStream.on('tweet', addTweets)
@@ -32,7 +36,7 @@ function addTweets(e) {
     timeOut: new Date(newTimeOut()),
     event: e // EVERYTHING!!! 
   })
-  console.log(`Item added to array, current length=${tweets.length}`)
+  console.log(`Item added to queue, current length=${tweets.length}`)
   // console.log(tweets)
 }
 
@@ -47,14 +51,18 @@ const newTimeIn = date => {
 }
 
 // set timeOut 🙃
+const randomMin = param.tweetTimeOutMin
+const randomMax = param.tweetTimeOutMax
+
 const newTimeOut = date => {
   return moment(date)
-    .add(getRandomInt(10, 20), 'm')
+    .add(getRandomInt(randomMin, randomMax), 'm')
     .toDate()
 }
 
 // loop through tweets object
 // popp off tweets after time out is matched
+const queueTime = param.tweetQueueTime
 
 setInterval(() => {
   // new array from tweets, right?
@@ -78,11 +86,11 @@ setInterval(() => {
       retweet(itemEvent)
       // then remove it
       tweets.shift()
-      console.log(`Item removed from array, current length ${tweets.length}`)
+      console.log(`Item removed from queue, current length ${tweets.length}`)
     }
   })
   return tweets
-}, 1000 * 60 * 10)
+}, queueTime)
 
 // for my own sanity checking of date times 🙃
 function timeConverter(UNIX_timestamp) {
@@ -92,7 +100,7 @@ function timeConverter(UNIX_timestamp) {
 // This will allow the bot to run on now.sh
 const server = createServer((req, res) => {
   res.writeHead(302, {
-    Location: `https://twitter.com/droidscott`
+    Location: `https://twitter.com/${config.twitterConfig.username}`
   })
   res.end()
 })

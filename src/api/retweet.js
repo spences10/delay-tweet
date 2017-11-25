@@ -1,7 +1,7 @@
 const Twit = require('twit')
 const config = require('../config')
 
-const bot = new Twit(config)
+const bot = new Twit(config.twitterKeys)
 
 const retweet = event => {
   // console.log(JSON.stringify(event.lang))
