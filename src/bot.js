@@ -6,6 +6,7 @@ const moment = require('moment')
 
 const config = require('./config')
 const retweet = require('./api/retweet')
+const isReply = require('./helpers/isReply')
 
 const bot = new Twit(config.twitterKeys)
 
@@ -28,6 +29,13 @@ function addTweets(e) {
   // console.log('====================')
   // console.log(e)
   // console.log('====================')
+  // check if reply
+  if (isReply(e)) {
+    // console.log('====================')
+    // console.log(`IS REPLY============`)
+    // console.log('====================')
+    return
+  }
   tweets.push({
     tweet: e.text,
     tweetId: e.id_str,
