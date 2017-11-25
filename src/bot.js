@@ -14,6 +14,10 @@ const bot = new Twit(config.twitterKeys)
 const param = config.twitterConfig
 const trackWords = param.queryString.split(',')
 
+// counter for tweets limit
+// detail here: https://support.twitter.com/articles/15364#
+const tweetLimit = 2400
+
 // use stream to track keywords
 const trackStream = bot.stream('statuses/filter', {
   track: trackWords
@@ -22,10 +26,19 @@ const trackStream = bot.stream('statuses/filter', {
 trackStream.on('tweet', addTweets)
 
 let tweets = []
+let tweetCounter = tweetLimit
+
+setInterval(() => {
+  tweetCounter = tweetLimit
+  console.log('====================')
+  console.log(`Set counter to ${tweetCounter}`)
+  console.log('====================')
+}, 1000 * 60 * 60 * 24)
 
 // add tweet to object
 // e is the tweet event
 function addTweets(e) {
+  if (tweetCounter === 0) return
   // console.log('====================')
   // console.log(e)
   // console.log('====================')
@@ -42,10 +55,11 @@ function addTweets(e) {
     user: e.user.screen_name,
     timeIn: new Date(newTimeIn()),
     timeOut: new Date(newTimeOut()),
-    event: e // EVERYTHING!!! 
+    event: e // EVERYTHING!!!
   })
   console.log(`Item added to queue, current length=${tweets.length}`)
   // console.log(tweets)
+  tweetCounter--
 }
 
 // function to rerurn random
@@ -69,13 +83,13 @@ const newTimeOut = date => {
 }
 
 // loop through tweets object
-// popp off tweets after time out is matched
+// pop off tweets after timeOut is matched
 const queueTime = param.tweetQueueTime
 
 setInterval(() => {
   // new array from tweets, right?
   tweets = tweets.slice()
-  // sort it 
+  // sort it
   tweets.sort((a, b) => a.timeOut - b.timeOut)
   // loop through the thing
   tweets.map(item => {
