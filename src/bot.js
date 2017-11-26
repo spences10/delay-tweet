@@ -26,19 +26,19 @@ const trackStream = bot.stream('statuses/filter', {
 trackStream.on('tweet', addTweets)
 
 let tweets = []
-let tweetCounter = tweetLimit
+let tweetCounter = tweetLimit / 24
 
 setInterval(() => {
   tweetCounter = tweetLimit
   console.log('====================')
+  console.log(`Hourly Counter Reset`)
   console.log(`reset counter to ${tweetCounter}`)
   console.log('====================')
-}, 1000 * 60 * 60 * 24)
+}, 1000 * 60 * 60)
 
 // add tweet to object
 // e is the tweet event
 function addTweets(e) {
-  if (tweetCounter === 0) return
   // console.log('====================')
   // console.log(e)
   // console.log('====================')
@@ -59,8 +59,6 @@ function addTweets(e) {
   })
   console.log(`Item added to queue, current length=${tweets.length}`)
   // console.log(tweets)
-  // count down to 0 from the max tweet number = 2400
-  tweetCounter--
 }
 
 // function to rerurn random
@@ -79,8 +77,8 @@ const randomMax = param.tweetTimeOutMax
 
 const newTimeOut = date => {
   return moment(date)
-    .add(getRandomInt(randomMin, randomMax), 'm')
-    .toDate()
+  .add(getRandomInt(randomMin, randomMax), 'm')
+  .toDate()
 }
 
 // loop through tweets object
@@ -88,6 +86,8 @@ const newTimeOut = date => {
 const queueTime = param.tweetQueueTime
 
 setInterval(() => {
+  // check counter
+  if (tweetCounter === 0) return  
   // new array from tweets, right?
   tweets = tweets.slice()
   // sort it
@@ -112,6 +112,8 @@ setInterval(() => {
       console.log(`Item removed from queue, current length ${tweets.length}`)
     }
   })
+  // count down to 0 from the max tweet number = 100
+  tweetCounter--
   return tweets
 }, queueTime)
 
