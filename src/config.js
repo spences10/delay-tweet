@@ -12,7 +12,7 @@ module.exports = {
     username: process.env.TWITTER_USERNAME,
     tweetTimeOutMin: process.env.TWEET_TIME_OUT_MIN,
     tweetTimeOutMax: process.env.TWEET_TIME_OUT_MAX,
-    tweetQueueTime: process.env.TWEET_QUEUE_TIME,
+    tweetQueueTime: 1000 * 60 * process.env.TWEET_QUEUE_TIME,
     username: process.env.TWITTER_USERNAME
   }
 }

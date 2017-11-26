@@ -29,7 +29,7 @@ let tweets = []
 let tweetCounter = tweetLimit / 24
 
 setInterval(() => {
-  tweetCounter = tweetLimit
+  tweetCounter = tweetLimit / 24
   console.log('====================')
   console.log(`Hourly Counter Reset`)
   console.log(`reset counter to ${tweetCounter}`)
@@ -87,6 +87,9 @@ const queueTime = param.tweetQueueTime
 
 setInterval(() => {
   // check counter
+  console.log('====================')
+  console.log(`TWEET COUNTER=${tweetCounter}`)
+  console.log('====================')
   if (tweetCounter === 0) return  
   // new array from tweets, right?
   tweets = tweets.slice()
@@ -110,10 +113,10 @@ setInterval(() => {
       // then remove it
       tweets.shift()
       console.log(`Item removed from queue, current length ${tweets.length}`)
+      // count down to 0 from the max tweet number = 100
+      tweetCounter--
     }
   })
-  // count down to 0 from the max tweet number = 100
-  tweetCounter--
   return tweets
 }, queueTime)
 
