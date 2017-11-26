@@ -39,10 +39,6 @@ setInterval(() => {
 // add tweet to object
 // e is the tweet event
 function addTweets(e) {
-  // console.log('====================')
-  // console.log(e)
-  // console.log('====================')
-  // check if reply
   if (isReply(e)) {
     // console.log('====================')
     // console.log(`IS REPLY============`)
@@ -53,8 +49,8 @@ function addTweets(e) {
     tweet: e.text,
     tweetId: e.id_str,
     user: e.user.screen_name,
-    timeIn: new Date(newTimeIn()),
-    timeOut: new Date(newTimeOut()),
+    timeIn: newTimeIn(new Date()),
+    timeOut: newTimeOut(newTimeIn()),
     event: e // EVERYTHING!!!
   })
   console.log(`Item added to queue, current length=${tweets.length}`)
@@ -62,23 +58,21 @@ function addTweets(e) {
 }
 
 // function to rerurn random
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
+const getRandomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min
 
 // set timeIn
-const newTimeIn = date => {
-  return moment(date).toDate()
-}
+const newTimeIn = date => moment(date).toDate()
 
 // set timeOut 🙃
-const randomMin = param.tweetTimeOutMin
-const randomMax = param.tweetTimeOutMax
+const randomMin = parseInt(param.tweetTimeOutMin)
+const randomMax = parseInt(param.tweetTimeOutMax)
 
 const newTimeOut = date => {
+  const minutesToAdd = getRandomInt(randomMin, randomMax)
   return moment(date)
-  .add(getRandomInt(randomMin, randomMax), 'm')
-  .toDate()
+    .add(minutesToAdd, 'minutes')
+    .toDate()
 }
 
 // loop through tweets object
@@ -90,7 +84,7 @@ setInterval(() => {
   console.log('====================')
   console.log(`TWEET COUNTER=${tweetCounter}`)
   console.log('====================')
-  if (tweetCounter === 0) return  
+  if (tweetCounter === 0) return
   // new array from tweets, right?
   tweets = tweets.slice()
   // sort it
@@ -100,11 +94,11 @@ setInterval(() => {
     // console.log(time.timeOut)
     const itemTimeOut = new Date(item.timeOut).getTime()
     const currentTime = new Date().getTime()
-    // console.log('====================')
-    // console.log(`ITEM TIME OUT==== ${timeConverter(itemTimeOut)}`)
-    // console.log(`ITEM TIME NOW==== ${timeConverter(currentTime)}`)
-    // console.log(`POP IT OFF?====== ${itemTimeOut <= currentTime}`)
-    // console.log('====================')
+    console.log('====================')
+    console.log(`ITEM TIME OUT==== ${timeConverter(itemTimeOut)}`)
+    console.log(`ITEM TIME NOW==== ${timeConverter(currentTime)}`)
+    console.log(`POP IT OFF?====== ${itemTimeOut <= currentTime}`)
+    console.log('====================')
     if (itemTimeOut <= currentTime) {
       // item needs 'dispatching' so tweet it
       const itemEvent = item.event
