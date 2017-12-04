@@ -21,7 +21,7 @@
     "twit": "2.2.9"
   },
   "devDependencies": {
-    "nodemon": "1.12.2",
+    "nodemon": "1.12.4",
     "prettier": "1.8.2"
   },
   "bugs": {
