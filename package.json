@@ -16,7 +16,7 @@
   "author": "Scott Spence <spences10apps@gmail.com> (https://blog.scottspence.me/)",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "5.0.0",
+    "dotenv": "5.0.1",
     "moment": "2.20.1",
     "twit": "2.2.9"
   },
