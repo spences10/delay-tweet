@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "nodemon": "1.17.5",
-    "prettier": "1.13.1"
+    "prettier": "1.13.2"
   },
   "bugs": {
     "url": "https://github.com/spences10/delay-tweet/issues"
